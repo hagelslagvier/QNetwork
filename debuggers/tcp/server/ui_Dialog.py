@@ -2,12 +2,11 @@
 
 # Form implementation generated from reading ui file 'ui_Dialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.2
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -52,7 +51,7 @@ class Ui_Dialog(object):
         font.setBold(True)
         font.setWeight(75)
         self.pushButtonSend.setFont(font)
-        self.pushButtonSend.setAutoDefault(True)
+        self.pushButtonSend.setAutoDefault(False)
         self.pushButtonSend.setObjectName("pushButtonSend")
         self.horizontalLayout.addWidget(self.pushButtonSend)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -146,6 +145,5 @@ class Ui_Dialog(object):
         self.checkBoxTimestamp.setText(_translate("Dialog", "Timestamp"))
         self.pushButtonStartStop.setText(_translate("Dialog", "Start"))
         self.labelPeerAddress.setText(_translate("Dialog", "Peer address:"))
-
 
 from debuggers.widgets import LineEdit
