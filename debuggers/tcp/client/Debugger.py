@@ -2,6 +2,7 @@
 
 # Copyright (C) 2015-2019 Alexey Naumov <rocketbuzzz@gmail.com>
 #
+# This file is part of qnetwork.
 #
 # qnetwork is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@
 import os
 from distutils.util import strtobool
 
-from PyQt5.QtCore import QTime, QSettings, QByteArray, Qt
+from PyQt5.QtCore import Qt, QTime, QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtNetwork import QTcpSocket
 from PyQt5.QtWidgets import QDialog
@@ -34,7 +35,6 @@ ICON_CLIENT = os.path.dirname(__file__) + "/icons/client.svg"
 class TcpClientDebugger(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
-
         self.setupUi(self)
         self.__initialize()
 
@@ -50,12 +50,12 @@ class TcpClientDebugger(QDialog, Ui_Dialog):
         self.pushButtonConnectDisconnect.clicked.connect(self.onPushButtonConnectDisconnectClicked)
         self.pushButtonSend.clicked.connect(self.onPushButtonSendClicked)
         self.checkBoxRawText.stateChanged.connect(self.onCheckBoxRawTextStateChanged)
-        self.lineEditData.keyPressed.connect(self.__keyPressed)
+        self.lineEditData.keyPressed.connect(self.__onLineEditDataKeyPressed)
 
         self.__history = History()
         self.__loadSettings()
 
-    def __keyPressed(self, key):
+    def __onLineEditDataKeyPressed(self, key):
         if key in [Qt.Key_Enter, Qt.Key_Return]:
             self.pushButtonSend.click()
 

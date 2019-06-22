@@ -2,7 +2,7 @@
 
 # Copyright (C) 2015-2019 Alexey Naumov <rocketbuzzz@gmail.com>
 #
-# This file is part of rhelpers.
+# This file is part of qnetwork.
 #
 # rserial is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
