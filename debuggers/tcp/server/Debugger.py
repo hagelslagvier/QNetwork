@@ -52,14 +52,14 @@ class TcpServerDebugger(QDialog, Ui_Dialog):
         self.pushButtonSend.clicked.connect(self.onPushButtonSendClicked)
         self.checkBoxRawText.stateChanged.connect(self.onCheckBoxRawTextStateChanged)
         self.listWidgetClients.itemClicked.connect(self.onListWidgetClientsItemClicked)
-        self.lineEditData.keyPressed.connect(self.__onKeyPressed)
+        self.lineEditData.keyPressed.connect(self.__onLineEditDataKeyPressed)
 
         self.__history = History()
         self.__loadSettings()
 
-    def __onKeyPressed(self, key):
+    def __onLineEditDataKeyPressed(self, key):
         if key in [Qt.Key_Enter, Qt.Key_Return]:
-            self.onPushButtonSendClicked()
+            self.pushButtonSend.click()
 
         if Qt.Key_Up == key:
             previous = self.__history.previous()
