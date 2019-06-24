@@ -100,12 +100,16 @@ class TcpServerDebugger(QDialog, Ui_Dialog):
         super(TcpServerDebugger, self).closeEvent(event)
 
     def onConnected(self, descriptor):
-        self.listWidgetClients.addItem(str(descriptor))
+        hex_value = hex(descriptor)
+        hex_value = hex_value[2:]
+        self.listWidgetClients.addItem(hex_value)
 
     def onDisconnected(self, descriptor):
-        searchString = str(descriptor)
+        hex_value = hex(descriptor)
+        hex_value = hex_value[2:]
+
         matchFlags = Qt.MatchExactly
-        items = self.listWidgetClients.findItems(searchString, matchFlags)
+        items = self.listWidgetClients.findItems(hex_value, matchFlags)
 
         if not items:
             self.__postText("E[?]: Disconnected descriptor was not found.")
@@ -137,7 +141,9 @@ class TcpServerDebugger(QDialog, Ui_Dialog):
             if not dataFormat:
                 self.__postText("E[?]: Invalid data format.")
 
-        self.__postText("R[%s:%s#%s]: %s" % (dataFormat, len(data), descriptor, text))
+        hex_value = hex(descriptor)
+        hex_value = hex_value[2:]
+        self.__postText("R[%s:%s#%s]: %s" % (dataFormat, len(data), hex_value, text))
 
     def onCheckBoxRawTextStateChanged(self, state):
         if state == Qt.Checked:
@@ -151,7 +157,8 @@ class TcpServerDebugger(QDialog, Ui_Dialog):
 
     def onListWidgetClientsItemClicked(self):
         item = self.listWidgetClients.currentItem()
-        descriptor = int(item.text())
+        hex_value = item.text()
+        descriptor = int(hex_value, 16)
         socket = self.__tcpServer.socket(descriptor)
 
         if socket:
@@ -217,8 +224,9 @@ class TcpServerDebugger(QDialog, Ui_Dialog):
                 self.__postText("E[?]: Invalid data format.")
 
         for item in selectedSockets:
-            descriptor = int(item.text())
-            self.__postText("T[%s:%s#%s]: %s" % (dataFormat, len(data), descriptor, text))
+            hex_value = item.text()
+            descriptor = int(hex_value, 16)
+            self.__postText("T[%s:%s#%s]: %s" % (dataFormat, len(data), hex_value, text))
             self.__tcpServer.write(descriptor, data)
 
         self.lineEditData.clear()
