@@ -288,9 +288,9 @@ class TcpServer(QObject):
         '''
 
         if self.__on_disconnected:
-            socket = self.__server.sender()
+            socket = self.sender()
             descriptor = id(socket)
-            del self.__clients[descriptor]
+            self.__clients.pop(descriptor, None)
             self.__on_disconnected(descriptor)
 
     @pyqtSlot()
@@ -303,21 +303,9 @@ class TcpServer(QObject):
         :return: None
         '''
 
-        # if the remote host intentionally closes the connection
-        if QAbstractSocket.RemoteHostClosedError == socketError:  # the RemoteHostClosedError error occurs
-            if self.__on_disconnected:
-                socket = self.__server.sender()  # find out the client's socket
-                descriptor = id(socket)  # and its descriptor
-                del self.__clients[descriptor]
-                self.__on_disconnected(descriptor)  # to pass the descriptor to __on_disconnected callback
-                # In case we try to find out the client's socket descriptor when the client already disconnected (e.g.
-                # in __onDisconnected slot), we get descriptor=-1 that is not what we need.
-            return
-
         if self.__on_error:
             socket = self.__server.sender()
             descriptor = id(socket)
-
             errorCode = int(socketError)
             errorDescription = str(self.__server.errorString())
             error = (errorCode, errorDescription)
